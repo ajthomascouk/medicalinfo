@@ -7,10 +7,6 @@ var http       = require('http')
   , parseString = require('xml2js').parseString
   , striptags = require('striptags');
 
-var xmlurl = function(conditionId){
-  return 'http://v1.syndication.nhschoices.nhs.uk/conditions/articles/'+conditionId+'/symptoms.xml?apikey=' + API_KEY;
-};
-
 var xmlurl = function(conditionId, type){
   conditionId=conditionId.replace(" ","-");
   return 'http://v1.syndication.nhschoices.nhs.uk/conditions/articles/'+conditionId+'/'+type+'.xml?apikey=' + API_KEY;
