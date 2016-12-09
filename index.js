@@ -11,6 +11,11 @@ var xmlurl = function(conditionId){
   return 'http://v1.syndication.nhschoices.nhs.uk/conditions/articles/'+conditionId+'/symptoms.xml?apikey=' + API_KEY;
 };
 
+var xmlurl = function(conditionId, type){
+  conditionId=conditionId.replace(" ","-");
+  return 'http://v1.syndication.nhschoices.nhs.uk/conditions/articles/'+conditionId+'/'+type+'.xml?apikey=' + API_KEY;
+};
+
 function xmlToJson(url, callback) {
     var req = https.get(url, function(res) {
       var xml = '';
@@ -35,14 +40,37 @@ function xmlToJson(url, callback) {
     });
   }
 
+var handleNextSymptomRequest = function(intent, session, response){
 
-var handleNextBusRequest = function(intent, session, response){
-
-  xmlToJson(xmlurl(intent.slots.condition.value), function(err, data) {
+  xmlToJson(xmlurl(intent.slots.condition.value, 'symptoms'), function(err, data) {
     var thedata = data['feed']['entry'][0]['content'][0]['_'];
     var text = striptags(thedata);
     var cardText = text;
     var heading = 'Symptoms of ' + intent.slots.condition.value;
+    response.tellWithCard(text, heading, cardText);
+  });
+
+};
+
+var handleNextTreatmentRequest = function(intent, session, response){
+
+  xmlToJson(xmlurl(intent.slots.condition.value, 'treatment'), function(err, data) {
+    var thedata = data['feed']['entry'][0]['content'][0]['_'];
+    var text = striptags(thedata);
+    var cardText = text;
+    var heading = 'Treatments for ' + intent.slots.condition.value;
+    response.tellWithCard(text, heading, cardText);
+  });
+
+};
+
+var handleNextPreventionRequest = function(intent, session, response){
+
+  xmlToJson(xmlurl(intent.slots.condition.value, 'prevention'), function(err, data) {
+    var thedata = data['feed']['entry'][0]['content'][0]['_'];
+    var text = striptags(thedata);
+    var cardText = text;
+    var heading = 'Treatments for ' + intent.slots.condition.value;
     response.tellWithCard(text, heading, cardText);
   });
 
@@ -65,7 +93,7 @@ BusSchedule.prototype.eventHandlers.onLaunch = function(launchRequest, session, 
   // This is when they launch the skill but don't specify what they want. Prompt
   // them for their bus stop
   var output = 'Welcome to Medical info. ' +
-    'Say the condition you wish to know about.';
+    'How can I help?';
 
   var reprompt = 'Which condition do you want to find more about?';
 
@@ -76,13 +104,20 @@ BusSchedule.prototype.eventHandlers.onLaunch = function(launchRequest, session, 
 };
 
 BusSchedule.prototype.intentHandlers = {
-  GetNextBusIntent: function(intent, session, response){
-    handleNextBusRequest(intent, session, response);
+  SymptomsIntent: function(intent, session, response){
+    handleNextSymptomRequest(intent, session, response);
+  },
+
+  TreatmentIntent: function(intent, session, response){
+    handleNextTreatmentRequest(intent, session, response);
+  },
+
+  PreventionIntent: function(intent, session, response){
+    handleNextPreventionRequest(intent, session, response);
   },
 
   HelpIntent: function(intent, session, response){
-    var speechOutput = 'Get the distance from arrival for any NYC bus stop ID. ' +
-      'Which bus stop would you like?';
+    var speechOutput = 'I sorry, I couldn\'t find that information. Please try again.';
     response.ask(speechOutput);
   }
 };
