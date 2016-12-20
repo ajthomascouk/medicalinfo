@@ -1,0 +1,24 @@
+{
+  "name": "medicalinfo",
+  "version": "1.0.0",
+  "description": "Retrieve medical information",
+  "main": "index.js",
+  "dependencies": {
+    "striptags": "^2.1.1",
+    "xml2js": "^0.4.17"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbroodie/medicalinfo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbroodie/medicalinfo/issues"
+  },
+  "homepage": "https://github.com/jbroodie/medicalinfo#readme"
+}

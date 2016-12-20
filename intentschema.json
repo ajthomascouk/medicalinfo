@@ -1,0 +1,44 @@
+{
+  "intents": [
+    {
+      "intent": "SymptomsIntent",
+      "slots": [
+        {
+          "name": "condition",
+          "type": "LIST_OF_CONDITIONS"
+        }
+      ]
+    },
+    {
+      "intent": "TreatmentIntent",
+      "slots": [
+        {
+          "name": "condition",
+          "type": "LIST_OF_CONDITIONS"
+        }
+      ]
+    },
+    {
+      "intent": "PreventionIntent",
+      "slots": [
+        {
+          "name": "condition",
+          "type": "LIST_OF_CONDITIONS"
+        }
+      ]
+    },
+    {
+      "intent": "PharmacyIntent",
+      "slots": [
+        {
+          "name": "address",
+          "type": "AMAZON.PostalAddress"
+        }
+      ]
+    },
+    {
+      "intent": "HelpIntent",
+      "slots": []
+    }
+  ]
+}
